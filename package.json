@@ -24,9 +24,5 @@
     "sinon": "1.17.7",
     "mocha-junit-reporter": "1.13.0",
     "mocha-spec-json-reporter": "0.0.2"
-  },
-  "scripts": {
-    "test":
-      "mocha tests --reporter  mocha-spec-json-reporter --reporter-options mochaFile=./logs/test-result.json"
   }
 }
