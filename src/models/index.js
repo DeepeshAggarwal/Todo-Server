@@ -1,26 +1,25 @@
-"use strict";
+'use strict';
 
-var fs = require("fs");
-var path = require("path");
+var fs = require('fs');
+var path = require('path');
 var logger = require('../lib/logger.js').get('dbConnection');
-var mongoose = require("mongoose");
-var env = process.env.NODE_ENV || "development";
-var config = require(path.join(__dirname, '../../', 'config', 'config.json'))[env];
+var mongoose = require('mongoose');
+var env = process.env.NODE_ENV || 'development';
+var config = require(path.join(__dirname, '../../', 'config', 'index.js'));
+console.log(config);
 var db;
-if (process.env.DATABASE_URL) {
-    db = mongoose.connect(process.env.DATABASE_URL);
-} else {
-    var url = 'mongodb://' + config.host + ':' + config.port + '/' + config.database;
-    db = mongoose.connect(url);
-}
+var url = 'mongodb://' + config.mongo.host + ':' + config.mongo.port + '/' + config.mongo.db;
+db = mongoose.connect(
+  url,
+  { user: config.mongo.username, pass: config.mongo.password }
+);
 
-fs
-    .readdirSync(__dirname)
-    .filter(function(file) {
-        return (file.indexOf(".") !== 0) && (file !== "index.js");
-    })
-    .forEach(function(file) {
-        var model = require(path.join(__dirname, file));
-    });
+fs.readdirSync(__dirname)
+  .filter(function(file) {
+    return file.indexOf('.') !== 0 && file !== 'index.js';
+  })
+  .forEach(function(file) {
+    var model = require(path.join(__dirname, file));
+  });
 
 module.exports = db;

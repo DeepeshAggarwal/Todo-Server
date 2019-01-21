@@ -13,7 +13,7 @@ module.exports = app;
 
 var config = {
   appRoot: __dirname, // required config
-  swaggerFile: `${__dirname}/src/swagger/swagger.yaml` // swagger config file location
+  swaggerFile: `${__dirname}/src/swagger/swagger.yaml`, // swagger config file location
 };
 
 SwaggerExpress.create(config, function(err, swaggerExpress) {
@@ -22,10 +22,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   }
   app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader(
-      'Access-Control-Allow-Methods',
-      'GET, POST, OPTIONS, PUT, PATCH, DELETE'
-    );
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader(
       'Access-Control-Allow-Headers',
       'Origin, X-Requested-With, Content-Type, Accept, Key, Access-Control-Allow-Origin'
@@ -45,10 +42,4 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   app.listen(port, function() {
     logger.info('listening on', port);
   });
-
-  // open('http://localhost:3001/docs', function(err) {
-  //   if (err)
-  //     logger.error('The user closed the browser');
-  //   }
-  // );
 });
