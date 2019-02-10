@@ -6,7 +6,10 @@ var logger = require('../lib/logger.js').get('dbConnection');
 var mongoose = require('mongoose');
 var env = process.env.NODE_ENV || 'development';
 var config = require(path.join(__dirname, '../../', 'config', 'index.js'));
-console.log(config);
+if(env === 'development') {
+	console.log(config);	
+}
+
 var db;
 var url = 'mongodb://' + config.mongo.host + ':' + config.mongo.port + '/' + config.mongo.db;
 db = mongoose.connect(

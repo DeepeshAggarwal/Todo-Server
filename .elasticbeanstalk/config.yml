@@ -1,22 +1,17 @@
-#branch-defaults:
-#  master:
-#    environment: todo-server
-# (optional) Other branch-specific settings
-# (e.g. if you want a staging environment)
-#  master:
-#    environment: mywebapp-api-staging
-# branches:
-#   only:
-#     - develop
-#     - master
+branch-defaults:
+  master:
+    environment: master
 global:
   application_name: todo-server
-  default_ec2_keyname: null
-  default_platform: arn:aws:elasticbeanstalk:us-west-2::platform/Docker running on
-    64bit Amazon Linux/2.11.0
+  branch: null
+  default_ec2_keyname: aws-eb
+  default_platform: Docker 18.06.1-ce
   default_region: us-west-2
+  include_git_submodules: true
   instance_profile: null
   platform_name: null
   platform_version: null
   profile: eb-cli
+  repository: null
   sc: git
+  workspace_type: Application
