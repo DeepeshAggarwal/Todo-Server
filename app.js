@@ -7,7 +7,7 @@ var express = require('express'),
   open = require('opn'),
   SwaggerExpress = require('swagger-express-mw');
 const mongooseModels = require('./src/models');
-
+const whiteListURLs = ['/signIn', '/signUp', '/validate', '/docs']
 var app = express();
 module.exports = app;
 
@@ -29,6 +29,14 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
     );
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
+  }, function(req, res, next) {
+    let path = req.path;
+    if(isWhiteListURL(req, path)) {
+      next();
+    } else {
+      res.status(401).send();
+    }
+    
   });
 
   app.use(bodyParser.json());
@@ -43,3 +51,17 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
     logger.info('listening on', port);
   });
 });
+
+// TODO export this
+function isWhiteListURL(req, path) {
+  if(process.env.NODE_ENV !== 'production') {
+    return true;
+  }
+  if(path in whiteListURLs) {
+    let authorizationHeader = req.header('Authorization');
+    if(authorizationHeader) {
+      return true;
+    }
+  }
+  return false;
+}

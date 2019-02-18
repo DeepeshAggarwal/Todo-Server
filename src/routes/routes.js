@@ -17,6 +17,10 @@ var appRouter = function (app) {
         signController.signUp(req.body, res);
     });
 
+    app.get("/validate", function(req, res) {
+        signController.validate(req.query.token, res);
+    });
+
     //tasks
     app.post("/user/:userId/task", function(req, res) {
         taskController.createTask(req.params.userId, req.body, res);
