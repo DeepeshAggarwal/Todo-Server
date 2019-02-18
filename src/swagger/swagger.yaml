@@ -39,7 +39,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
         200:
-          description: User Credentials Matched
+          description: User Credentials Validated
   /signUp:
     x-swagger-router-controller: sign
     post:
@@ -49,7 +49,7 @@ paths:
           in: body
           description: User credentials
           schema:
-            $ref: '#/definitions/SignInUser'
+            $ref: '#/definitions/SignUpUser'
           required: true
       tags:
         - Sign
@@ -60,6 +60,25 @@ paths:
             $ref: '#/definitions/Error'
         200:
           description: User Registered
+  /validate:
+    x-swagger-router-controller: sign
+    get:
+      description: Validate the User with the JWT Token
+      parameters:
+        - name: token
+          in: query
+          description: The JWT TOKEN
+          type: "string"    
+          required: true
+      tags:
+        - Sign
+      responses:
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        200:
+          description: User Verified
   /user/{userId}/task/{taskId}:
     x-swagger-router-controller: task
     get:
@@ -333,7 +352,7 @@ definitions:
         type: string
       password:
         type: string
-  SignInUser:
+  SignUpUser:
     type: object
     properties:
       email:

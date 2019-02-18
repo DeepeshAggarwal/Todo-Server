@@ -1,7 +1,6 @@
 'use strict';
 
 const pw = require('credential')();
-// const mongooseModels = require('./../models');
 const mongoose = require('mongoose');
 const logger = require('./../lib/logger.js').get('dao');
 
@@ -17,7 +16,7 @@ function signIn(email, password) {
         );
       else {
         logger.debug(result);
-        validateUser(result.password, password, function(err, isValid) {
+        validatePassword(result.password, password, function(err, isValid) {
           logger.debug(isValid, result);
           if (err) reject(err);
           else if (isValid) resolve(result.getPublicFields());
@@ -31,16 +30,16 @@ function signIn(email, password) {
   });
 }
 
-function signUp(email, password, name) {
-  logger.info('entered saveUser', email);
+function signUp(body) {
+  logger.info('entered saveUser', body.email);
   var User = mongoose.model('User');
   return new Promise(function(resolve, reject) {
-    pw.hash(password, function(err, hash) {
+    pw.hash(body.password, function(err, hash) {
       if (err) reject(err);
       var request = {
-        email: email,
+        email: body.email,
         password: hash,
-        name: name
+        name: body.name
       };
       getNextSequence('userid', function(err, result) {
         if (err) reject(err);
@@ -114,6 +113,19 @@ function userExists(userId) {
   return result.exec();
 }
 
+function validateUser(userId) {
+  logger.debug('entered validateUser', userId);
+  const User = mongoose.model('User');
+  return new Promise((resolve, reject) => {
+    User.findByIdAndUpdate(userId, {validated: true}, {new: true}, (err, user) => {
+      if(err) {
+        reject(err)
+      }
+      resolve(user.getPublicFields());
+    });  
+  });
+}
+
 function userExistsMoreInfo(user, cb) {
   logger.info('entered userExists', user);
   var User = mongoose.model('User');
@@ -122,7 +134,7 @@ function userExistsMoreInfo(user, cb) {
   }).exec(cb);
 }
 
-function validateUser(storedPassword, requestPassword, cb) {
+function validatePassword(storedPassword, requestPassword, cb) {
   logger.debug(storedPassword, requestPassword);
   pw.verify(storedPassword, requestPassword, function(err, isValid) {
     if (err) return cb(err);
@@ -259,5 +271,6 @@ module.exports = {
   addUserToTeam: addUserToTeam,
   removeUserFromTeam: removeUserFromTeam,
   addComment: addComment,
-  updateComment: updateComment
+  updateComment: updateComment,
+  validateUser: validateUser
 };

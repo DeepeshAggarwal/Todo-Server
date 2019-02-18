@@ -4,6 +4,7 @@ var User = new Schema({
     _id         : Number
   , name        : String
   , email       : {type: String, unique: true }
+  , validated   : {type: Boolean, default: false }
   , password    : String
   , teamId      : [{ type: Number, ref: 'Team' }]
 });
@@ -13,7 +14,7 @@ User.methods.getPublicFields = function () {
         id: this._id,
         name: this.name,
         email: this.email,
-        teamId: this.teamId
+        validated: this.validated
     };
     return returnObject;
 };

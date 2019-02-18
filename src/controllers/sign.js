@@ -25,7 +25,7 @@ function signIn(body, res) {
 function signUp(body, res) {
   if (util.isValidSignUpRequest(body.email, body.name) === true) {
     signService
-      .signUp(body.email, body.name)
+      .signUp(body)
       .then(response => {
         logger.info(response);
         res.send(response);
@@ -39,7 +39,20 @@ function signUp(body, res) {
   }
 }
 
+function validate(token, res) {
+  if(token) {
+    signService.validateToken(token)
+    .then(result => {
+      res.status(200).send(result);
+    })
+    .catch(error => {
+      res.status(500).send({ message: error.message });
+    })
+  }
+}
+
 module.exports = {
   signIn: signIn,
-  signUp: signUp
+  signUp: signUp,
+  validate: validate
 };
