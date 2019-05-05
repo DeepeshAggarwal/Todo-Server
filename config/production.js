@@ -2,6 +2,7 @@ var config = {};
 
 // config domain
 config.domain = process.env.DOMAIN
+config.frontendDomain = process.env.FRONTEND_DOMAIN
 
 //mongo database
 config.mongo = {};

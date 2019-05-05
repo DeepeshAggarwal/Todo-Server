@@ -49,7 +49,7 @@ function signUp(body) {
           var user = new User(request);
           user.save(function(err, result) {
             if (err) {
-              if (err.name === 'MongoError' && err.code === 11000)
+              if (err.code === 11000)
                 reject(new Error('User already exist!'));
               else reject(err);
             } else resolve(result.getPublicFields());
