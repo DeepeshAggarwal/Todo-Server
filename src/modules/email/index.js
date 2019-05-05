@@ -10,7 +10,7 @@ const msg = {
 module.exports = {
  sendVerification: (email, token) => {  
  	msg.to = email;
- 	msg.html = 'Hi There. Please Clink on the link to verify: <a href="' + config.domain + '/validate?token=' + token + '">' + 'link' + '</a>';
+ 	msg.html = 'Hi There. Please Clink on the link to verify: <a href="' + config.frontendDomain + '/validate?token=' + token + '">' + 'link' + '</a>';
  	logger.debug(msg);
 	return sgMail.send(msg); 	
  }

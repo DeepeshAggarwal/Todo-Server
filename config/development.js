@@ -4,6 +4,7 @@ var config = {}; //(module.exports = {});
 
 // domain
 config.domain = 'http://localhost:3001';
+config.frontendDomain = 'http://localhost:3000'
 
 //mongo database
 config.mongo = {};
