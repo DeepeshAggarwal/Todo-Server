@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "repository": "TODO App",
-  "author": "deepesh.aggarwal@macys.com",
+  "author": "deepeshnith547@gmail.com",
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
     "body-parser": "1.15.2",
